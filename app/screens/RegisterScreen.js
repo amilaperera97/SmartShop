@@ -38,7 +38,7 @@ export default function RegisterScreen({navigation}) {
   return (
     <Background>
       <Logo />
-      <Header>Create Account</Header>
+      <Header color="#1000FF">Create Account</Header>
       {/* <Icon name="ios-search" size={20} color="#000"/> */}
       <TextInput
         label="First Name"
@@ -97,7 +97,8 @@ export default function RegisterScreen({navigation}) {
       <Button
         mode="contained"
         onPress={onSignUpPressed}
-        style={{marginTop: 24}}>
+        style={{marginTop: 24}}
+        color="#1000FF">
         Sign Up
       </Button>
       <View style={styles.row}>
@@ -125,7 +126,7 @@ export default function RegisterScreen({navigation}) {
       </View>
       <View style={styles.row}>
         <Text>Already have an account? </Text>
-        <TouchableOpacity onPress={() => navigation.replace('RegisterScreen')}>
+        <TouchableOpacity onPress={() => navigation.replace('LoginScreen')}>
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>

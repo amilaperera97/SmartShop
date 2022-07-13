@@ -6,6 +6,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 import {theme} from './app/core/theme';
 import RegisterScreen from './app/screens/RegisterScreen';
 import {useColorScheme} from 'react-native';
+import LoginScreen from './app/screens/LoginScreen';
 
 const Stack = createStackNavigator();
 
@@ -20,6 +21,7 @@ const App: () => Node = () => {
             headerShown: false,
           }}>
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
+          <Stack.Screen name="LoginScreen" component={LoginScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>

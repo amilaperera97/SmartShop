@@ -15,7 +15,7 @@ export default function Button({ mode, style, ...props }) {
       mode={mode}
       {...props}
     />
-  )
+  );
 }
 
 const styles = StyleSheet.create({
@@ -29,4 +29,4 @@ const styles = StyleSheet.create({
     fontSize: 15,
     lineHeight: 26,
   },
-})
+});
