@@ -7,6 +7,7 @@ import {theme} from './app/core/theme';
 import RegisterScreen from './app/screens/RegisterScreen';
 import {useColorScheme} from 'react-native';
 import LoginScreen from './app/screens/LoginScreen';
+import ResetPasswordScreen from './app/screens/ResetPasswordScreen';
 
 const Stack = createStackNavigator();
 
@@ -22,6 +23,7 @@ const App: () => Node = () => {
           }}>
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
+          <Stack.Screen name="ResetPasswordScreen" component={ResetPasswordScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
