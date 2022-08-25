@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { Text, View, StyleSheet, Button, FlatList, ActivityIndicator,Alert   } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
+import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import { useSelector, useDispatch } from 'react-redux';
 import Colors from '../constants/Colors';
@@ -12,6 +13,8 @@ import Card from '../components/UI/Card';
 import * as cartActions from '../redux/actions/cart';
 import PRODUCTS from '../data/dummy-data';
 import Product from '../models/product';
+
+import LoginScreen from './LoginScreen';
 
 export default function BucketScreen({ navigation })  {
   const dispatch = useDispatch();
@@ -82,6 +85,15 @@ export default function BucketScreen({ navigation })  {
   // Return the View
   return (
     <View style={styles.container}>
+      {/* <HeaderButtons HeaderButtonComponent={LoginScreen}>
+              <Item
+                title="menu"
+                iconName="bars"
+                onPress={() => {
+                  navigation.toggleDrawer();
+                }}
+              />
+            </HeaderButtons> */}
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
