@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
@@ -9,23 +10,45 @@ import TextInput from '../components/TextInput';
 import {theme} from '../core/theme';
 import {emailValidator} from '../helpers/emailValidator';
 import {passwordValidator} from '../helpers/passwordValidator';
+import * as authAction from '../redux/actions/auth';
+import { useDispatch } from 'react-redux';
 
 export default function LoginScreen({ navigation }) {
+  const [isLoading, setIsLoading] = useState(false);
   const [email, setEmail] = useState({ value: '', error: '' })
   const [password, setPassword] = useState({ value: '', error: '' });
+  const dispatch = useDispatch();
+
+  // email.value = 'amilaperera98@gmail.com';
+  // password.value ='apass';
 
   const onLoginPressed = () => {
-    const emailError = emailValidator(email.value)
-    const passwordError = passwordValidator(password.value)
-    // if (emailError || passwordError) {
-    //   setEmail({ ...email, error: emailError })
-    //   setPassword({ ...password, error: passwordError })
-    //   return;
-    // }
-    navigation.reset({
+    const emailError = emailValidator(email.value);
+    const passwordError = passwordValidator(password.value,password.value);
+    if (emailError || passwordError) {
+      setEmail({ ...email, error: emailError })
+      setPassword({ ...password, error: passwordError });
+      return;
+    }
+    let action = authAction.login(email.value, password.value);
+    setIsLoading(true);
+    try {
+      dispatch(action);
+      // props.navigation.navigate("Home");
+    } catch (error) {
+      // setError(error.message);
+    }
+    setIsLoading(false);
+    if (action) {
+      navigation.reset({
       index: 0,
-      routes: [{ name: 'LandingScreen' }],
+      routes: [{name: 'LandingScreen'}],
     });
+    }
+    // navigation.reset({
+    //   index: 0,
+    //   routes: [{ name: 'LandingScreen' }],
+    // });
   };
 
   return (

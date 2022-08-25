@@ -14,25 +14,57 @@ import {passwordValidator} from '../helpers/passwordValidator';
 import {nameValidator} from '../helpers/nameValidator';
 import {SocialIcon} from 'react-native-elements';
 
+import * as authAction from '../redux/actions/auth';
+import { useDispatch } from 'react-redux';
+
 export default function RegisterScreen({navigation}) {
-  const [name, setName] = useState({value: '', error: ''});
+  const [isLoading, setIsLoading] = useState(false);
+  const [fname, setFname] = useState({value: '', error: ''});
+  const [lname, setLname] = useState({value: '', error: ''});
   const [email, setEmail] = useState({value: '', error: ''});
   const [password, setPassword] = useState({value: '', error: ''});
+  const [confirmPassword, setConfirmPassword] = useState({value: '', error: ''});
+  const [mobileNo, setMobileNo] = useState({value: '', error: ''});
+  const dispatch = useDispatch();
+
+  // fname.value = 'Amila';
+  // lname.value = 'Amila';
+  // email.value = 'amila@gmail.com';
+  // mobileNo.value = '0779742564';
+  // password.value = 'Amila123';
+  // confirmPassword.value = 'Amila123';
 
   const onSignUpPressed = () => {
-    const nameError = nameValidator(name.value);
+    const fNameError = nameValidator(fname.value);
+    const lNameError = nameValidator(lname.value);
     const emailError = emailValidator(email.value);
-    const passwordError = passwordValidator(password.value);
-    if (emailError || passwordError || nameError) {
-      setName({...name, error: nameError});
+    const passwordError = passwordValidator(password.value, confirmPassword.value);
+    // const mobileNumberError = passwordValidator(mobileNo.value);
+
+    if (emailError || passwordError || fNameError || lNameError) {
+      setFname({...fname, error: fNameError});
+      setLname({...lname, error: lNameError});
       setEmail({...email, error: emailError});
       setPassword({...password, error: passwordError});
       return;
+    } else {
+      let action = authAction.signup(fname,lname,email,mobileNo,password);
+
+      setIsLoading(true);
+      try {
+        dispatch(action);
+        // props.navigation.navigate("Home");
+      } catch (error) {
+        // setError(error.message);
+      }
+      setIsLoading(false);
+        if (action){
+          navigation.reset({
+          index: 0,
+          routes: [{name: 'LoginScreen'}],
+        });
+      }
     }
-    navigation.reset({
-      index: 0,
-      routes: [{name: ''}],
-    });
   };
 
   return (
@@ -43,26 +75,26 @@ export default function RegisterScreen({navigation}) {
       <TextInput
         label="First Name"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={text => setName({value: text, error: ''})}
-        error={!!name.error}
-        errorText={name.error}
+        value={fname.value}
+        onChangeText={text => setFname({value: text, error: ''})}
+        error={!!fname.error}
+        errorText={fname.error}
       />
       <TextInput
         label="Last Name"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={text => setName({value: text, error: ''})}
-        error={!!name.error}
-        errorText={name.error}
+        value={lname.value}
+        onChangeText={text => setLname({value: text, error: ''})}
+        error={!!lname.error}
+        errorText={lname.error}
       />
       <TextInput
         label="Mobile Number"
         returnKeyType="next"
-        value={name.value}
-        onChangeText={text => setName({value: text, error: ''})}
-        error={!!name.error}
-        errorText={name.error}
+        value={mobileNo.value}
+        onChangeText={text => setMobileNo({value: text, error: ''})}
+        error={!!mobileNo.error}
+        errorText={mobileNo.error}
       />
       <TextInput
         label="Email"
@@ -88,10 +120,10 @@ export default function RegisterScreen({navigation}) {
       <TextInput
         label="Confirm Password"
         returnKeyType="done"
-        value={password.value}
-        onChangeText={text => setPassword({value: text, error: ''})}
-        error={!!password.error}
-        errorText={password.error}
+        value={confirmPassword.value}
+        onChangeText={text => setConfirmPassword({value: text, error: ''})}
+        error={!!confirmPassword.error}
+        errorText={confirmPassword.error}
         secureTextEntry
       />
       <Button
