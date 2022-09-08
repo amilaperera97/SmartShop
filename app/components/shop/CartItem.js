@@ -9,14 +9,24 @@ const CartItem = (props) => {
     <View style={styles.separator} />
   );
 
-  const askForCameraPermission = () => {
-    
+  let imageUrl = 'https://aldprdproductimages.azureedge.net/media/$Aldi_GB/18.11.21%20REVERSION%20ERRORS/4088600212531_0.jpg';
+
+  if (props.title == 'Protein Yogurt 200g') {
+    imageUrl = 'https://aldprdproductimages.azureedge.net/media/$Aldi_GB/18.11.21%20REVERSION%20ERRORS/4088600212531_0.jpg';
+  } else if (props.title == 'Apple Juice 1 Litre') {
+    //apple
+    imageUrl = 'https://aldprdproductimages.azureedge.net/media/resized/$Aldi_GB/16.06.21/4088600123929_0_XL.jpg';
+  } else if (props.title == 'Chocolate Milk') {
+    //milk
+    imageUrl = 'https://aldprdproductimages.azureedge.net/media/resized/$Aldi_GB/ALL_RESIZED3/25027105_0_XL.png';
   }
+
+
 
   return (
     <View style={styles.cartItem}>
       <Text style={styles.itemData}>
-        <Image style={styles.stretch} source={{uri: 'https://cloudfront-us-east-2.images.arcpublishing.com/reuters/F6INOOMSRRL5XOOQDRPZUWPWBA.jpg'}}/>
+        <Image style={styles.stretch} source={{uri: imageUrl}}/>
         {/* <Text style={styles.quantity}>{props.quantity}-</Text> */}
         <Text style={styles.mainText}> {props.title}</Text>
         <Text style={styles.mainText}>   £{props.amount.toFixed(2)}</Text>

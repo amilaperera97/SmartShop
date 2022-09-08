@@ -80,7 +80,18 @@ export default function BucketScreen({ navigation })  {
     setText(data)
     console.log('Type: ' + type + '\nData: ' + data);
     setScanned(true);
-    const selectedProduct = new Product(data,'amila','Semi Milked Powder','','dff',60,1);
+    let selectedProduct = null;
+
+    //pot
+    if (data == '4088600212548') {
+      selectedProduct = new Product(data,'ALDI','Protein Yogurt 200g','https://aldprdproductimages.azureedge.net/media/$Aldi_GB/18.11.21%20REVERSION%20ERRORS/4088600212531_0.jpg','dff',0.99,1);
+    } else if (data == '4088600056425') {
+      //apple
+      selectedProduct = new Product(data,'ALDI','Apple Juice 1 Litre','https://aldprdproductimages.azureedge.net/media/resized/$Aldi_GB/16.06.21/4088600123929_0_XL.jpg','dff',0.79,1);
+    } else if (data == '4088600311074') {
+      //milk
+      selectedProduct = new Product(data,'ALDI','Chocolate Milk','https://aldprdproductimages.azureedge.net/media/resized/$Aldi_GB/ALL_RESIZED3/25027105_0_XL.png','dff',3.50,1);
+    }
     dispatch(cartActions.addToCart(selectedProduct));
   };
 

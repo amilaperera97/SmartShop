@@ -14,6 +14,7 @@ const cartReducer = (state = initialState, action) => {
       const addedProduct = action.product;
       const productPrice = addedProduct.price;
       const productTitle = addedProduct.title;
+      // const productImgUrl = addedProduct.imageUrl;
 
       let updateOrNewCartItem;
 

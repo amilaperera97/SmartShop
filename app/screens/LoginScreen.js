@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import { TouchableOpacity, StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
 import Background from '../components/Background';
+import BackgroundImg from '../components/BackgroundImg';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -52,7 +53,7 @@ export default function LoginScreen({ navigation }) {
   };
 
   return (
-    <Background>
+    <BackgroundImg>
       <Logo />
       <Header>Welcome back.</Header>
       <TextInput
@@ -92,7 +93,7 @@ export default function LoginScreen({ navigation }) {
           <Text style={styles.link}>Sign up</Text>
         </TouchableOpacity>
       </View>
-    </Background>
+    </BackgroundImg>
   )
 }
 

@@ -1,5 +1,7 @@
 /* eslint-disable prettier/prettier */
 import * as React from 'react';
+import { Text } from 'react-native';
+import { TouchableHighlight,Alert } from 'react-native';
 import {
   Button,
   KeyboardAvoidingView,
@@ -8,8 +10,10 @@ import {
   View
 } from 'react-native';
 import CreditCard from 'react-native-credit-card-form-ui';
+import { ActivityIndicator } from "react-native";
 
-export default function CardPaymentScreen() {
+
+export default function CardPaymentScreen({navigation}) {
   const creditCardRef = React.useRef() as any;
   const Separator = () => (
     <View style={styles.separator} />
@@ -32,7 +36,16 @@ export default function CardPaymentScreen() {
     >
       <CreditCard ref={creditCardRef} />
       <Separator/>
-      <Button title="Pay Now" onPress={handleSubmit} />
+      <TouchableHighlight
+          style={styles.submit}
+          onPress={()=> {
+              Alert.alert('Payment Success');
+              navigation.navigate('PaymentSuccessPage')
+          }}
+          underlayColor='#fff'>
+            <Text style={styles.submitText}>    Pay Now    </Text>
+        </TouchableHighlight>
+        
     </KeyboardAvoidingView>
   );
 }
@@ -52,4 +65,22 @@ const styles = StyleSheet.create({
     fontFamily: 'OpenSans-Bold',
     fontSize: 16,
   },
+  submit: {
+    marginRight: 40,
+    marginLeft: 40,
+    marginTop: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: '#FF9100',
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  submitText: {
+    color: '#2200FF',
+    textAlign: 'center',
+    fontFamily: 'Sitka Heading',
+    fontSize: 20,
+    fontWeight: "500"
+  }
 });

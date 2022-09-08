@@ -3,7 +3,7 @@ import {useState} from 'react';
 import React from 'react';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import {Text} from 'react-native-paper';
-import Background from '../components/Background';
+import BackgroundImg from '../components/BackgroundImg';
 import Logo from '../components/Logo';
 import Header from '../components/Header';
 import Button from '../components/Button';
@@ -68,7 +68,7 @@ export default function RegisterScreen({navigation}) {
   };
 
   return (
-    <Background>
+    <BackgroundImg>
       <Logo />
       <Header color="#1000FF">Create Account</Header>
       {/* <Icon name="ios-search" size={20} color="#000"/> */}
@@ -162,7 +162,7 @@ export default function RegisterScreen({navigation}) {
           <Text style={styles.link}>Login</Text>
         </TouchableOpacity>
       </View>
-    </Background>
+    </BackgroundImg>
   );
 }
 

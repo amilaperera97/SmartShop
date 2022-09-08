@@ -43,9 +43,9 @@ export default function PaymentSreen({ navigation }){
                 <PaymentIcon type='amex' height='15%'/>
             </View>
             <Separator/>
-            <View style={styles.payButton}>
+            {/* <View style={styles.payButton}>
               <Button title="Pay Now" onPress={() => Alert.alert('Payment Success')}/>
-            </View>
+            </View> */}
         </View>
 
     );

@@ -3,10 +3,15 @@ import React from 'react';
 import { PaymentIcon } from 'react-native-payment-icons';
 import { Image, StyleSheet,View, TouchableOpacity,Button,Alert,Text,ImageBackground  } from 'react-native';
 
-export default function PaymentSuccessPage() {
+export default function PaymentSuccessPage({navigation}) {
     const Separator = () => (
         <View style={styles.separator} />
-      );
+    );
+
+    const that = this;
+    setTimeout(() => {
+        navigation.navigate('LandingScreen')
+    },100);
     
     const bgImage = require('../assets/images/background-image.png');
     return(

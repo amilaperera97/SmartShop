@@ -13,11 +13,14 @@ import * as cartActions from '../redux/actions/cart';
 import PRODUCTS from '../data/dummy-data';
 import Product from '../models/product';
 import { AsyncStorage } from '@react-native-async-storage/async-storage';
+import BackgroundImg from '../components/BackgroundImg';
+import Navigator from '../components/Navigator';
 
 export default function QRCodeScanScreen({ navigation })  {
   const dispatch = useDispatch();
   const [hasPermission, setHasPermission] = useState(null);
   const [scanned, setScanned] = useState(false);
+  const [hiddenTag, setHiddenTag] = useState(false);
   const [text, setText] = useState('Not yet scanned')
   const [isLoading, setIsLoading] = useState(false);
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
@@ -94,21 +97,27 @@ export default function QRCodeScanScreen({ navigation })  {
   
   // Return the View
   return (
-    <View style={styles.container}>
-      <View style={styles.barcodebox}>
-        <BarCodeScanner
-          onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 400, width: 400 }} />
-      </View>
-      
-      <Text style={styles.maintext}>OR</Text>
+    <BackgroundImg>
+        <View style={styles.barcodebox}>
+          <BarCodeScanner
+            onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
+            style={{ height: 400, width: 400 }} />
+        </View>
+        
+        <Text style={styles.maintext}>OR</Text>
 
-      <Button title={'Find the Shop'} style={styles.submit} onPress={() => setScanned(false)} color="tomato"/>
-      <Text style={styles.maintext}>{text}</Text>
-      
-      {scanned && <Button title={'Scan Shop'} onPress={() => setScanned(false)} color="tomato"/>}
-
-    </View>
+        <TouchableHighlight
+          style={styles.submit}
+          onPress={()=>{
+              navigation.navigate('QRCodeScanScreen')
+          }}
+          underlayColor='#fff'>
+            <Text style={styles.submitText}>    Find the Shop    </Text>
+        </TouchableHighlight>
+        <Text style={styles.maintext}></Text>
+        
+        {scanned && <Button title={'Scan Shop'} onPress={() => setScanned(false)} color="tomato"/>}
+    </BackgroundImg>
   );
 }
 
@@ -158,11 +167,21 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   submit: {
-    backgroundColor: '#68a0cf',
-    overflow: 'hidden',
+    marginRight: 40,
+    marginLeft: 40,
+    marginTop: 10,
+    paddingTop: 20,
+    paddingBottom: 20,
+    backgroundColor: '#FF9100',
+    borderRadius: 35,
+    borderWidth: 1,
+    borderColor: '#fff',
   },
   submitText: {
-    color: '#fff',
+    color: '#2200FF',
     textAlign: 'center',
+    fontFamily: 'Sitka Heading',
+    fontSize: 20,
+    fontWeight: "500"
   }
 });
