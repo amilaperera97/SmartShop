@@ -7,13 +7,14 @@ import React from 'react';
 import BucketScreen from './BucketScreen';
 import ReceiptsScreen from './ReceiptsScreen';
 import HelpScreen from './HelpScreen';
+import QRCodeScanScreen from '../screens/QRCodeScanScreen';
 
 const Tab = createMaterialBottomTabNavigator();
 
 export default function LandingScreen({ navigation }) {
   return (
     <Tab.Navigator
-      initialRouteName="Bucket"
+      initialRouteName="QRCodeScanScreen"
       activeColor="#f0edf6"
       inactiveColor="#3e2465"
       barStyle={{ backgroundColor: '#694fad' }}>

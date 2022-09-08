@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, ActivityIndicator,Alert   } from 'react-native';
+import { Text, View, StyleSheet, Button, TouchableHighlight, FlatList, ActivityIndicator,Alert   } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 
 import { useSelector, useDispatch } from 'react-redux';
@@ -12,6 +12,7 @@ import Card from '../components/UI/Card';
 import * as cartActions from '../redux/actions/cart';
 import PRODUCTS from '../data/dummy-data';
 import Product from '../models/product';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 export default function QRCodeScanScreen({ navigation })  {
   const dispatch = useDispatch();
@@ -57,11 +58,23 @@ export default function QRCodeScanScreen({ navigation })  {
 
   // What happens when we scan the bar code
   const handleBarCodeScanned = ({ type, data }) => {
-    setText(data)
-    console.log('Type: ' + type + '\nData: ' + data);
+    setText(data);
+    // console.log('Type: ' + type + '\nData: ' + data);
     setScanned(true);
-    const selectedProduct = new Product(data,'amila','am','','dff',60,1);
-    dispatch(cartActions.addToCart(selectedProduct));
+    
+    const shopInfo = async () => {
+      try {
+        await AsyncStorage.setItem(
+          'shopData',data
+        );
+      } catch (error) {
+        // Error saving data
+      }
+    };
+
+    // const selectedProduct = new Product(data,'amila','am','','dff',60,1);
+    // dispatch(cartActions.addToCart(selectedProduct));
+    navigation.navigate('BucketScreen');
   };
 
   // Check permissions and return the screens
@@ -85,12 +98,16 @@ export default function QRCodeScanScreen({ navigation })  {
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 480, width: 450 }} />
+          style={{ height: 400, width: 400 }} />
       </View>
       
+      <Text style={styles.maintext}>OR</Text>
+
+      <Button title={'Find the Shop'} style={styles.submit} onPress={() => setScanned(false)} color="tomato"/>
       <Text style={styles.maintext}>{text}</Text>
       
       {scanned && <Button title={'Scan Shop'} onPress={() => setScanned(false)} color="tomato"/>}
+
     </View>
   );
 }
@@ -115,10 +132,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'column', 
     justifyContent: 'space-between',
-    height: 130,
-    width: 350,
+    height: 300,
+    width: 300,
     overflow: 'hidden',
-    borderRadius: 10,
+    borderRadius: 20,
     backgroundColor: 'tomato'
   },
   screen: { margin: 20 },
@@ -140,4 +157,12 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.primary,
   },
+  submit: {
+    backgroundColor: '#68a0cf',
+    overflow: 'hidden',
+  },
+  submitText: {
+    color: '#fff',
+    textAlign: 'center',
+  }
 });

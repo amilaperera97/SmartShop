@@ -14,6 +14,9 @@ import BucketScreen from './app/screens/BucketScreen';
 import CartScreen from './app/screens/CartScreen';
 import PaymentScreen from './app/screens/PaymentScreen';
 import QRCodeScanScreen from './app/screens/QRCodeScanScreen';
+import CardPaymentScreen from './app/screens/CardPaymentScreen';
+import PaymentSuccessPage from './app/screens/PaymentSuccessPage';
+
 
 import {
   Text,
@@ -45,7 +48,7 @@ const App: () => Node = () => {
     <Provider store={store}>
       <NavigationContainer>
         <Stack.Navigator
-          initialRouteName="BucketScreen"
+          initialRouteName="PaymentSuccessPage"
           screenOptions={{
             headerShown: true,
           }}>
@@ -82,6 +85,14 @@ const App: () => Node = () => {
           <Stack.Screen name="CartScreen" component={CartScreen} />
           <Stack.Screen name="PaymentScreen" component={PaymentScreen} />
           <Stack.Screen name="QRCodeScanScreen" component={QRCodeScanScreen} />
+          <Stack.Screen
+            name="CardPaymentScreen"
+            component={CardPaymentScreen}
+          />
+          <Stack.Screen
+            name="PaymentSuccessPage"
+            component={PaymentSuccessPage}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </Provider>
