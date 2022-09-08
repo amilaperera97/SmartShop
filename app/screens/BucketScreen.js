@@ -1,6 +1,6 @@
 /* eslint-disable prettier/prettier */
 import React, { useEffect, useState } from 'react';
-import { Text, View, StyleSheet, Button, FlatList, ActivityIndicator,Alert   } from 'react-native';
+import { Text, View, StyleSheet, Button, FlatList, ActivityIndicator,Alert,TouchableHighlight   } from 'react-native';
 import { BarCodeScanner } from 'expo-barcode-scanner';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
@@ -14,7 +14,7 @@ import * as cartActions from '../redux/actions/cart';
 import PRODUCTS from '../data/dummy-data';
 import Product from '../models/product';
 
-import LoginScreen from './LoginScreen';
+import { AsyncStorage } from '@react-native-async-storage/async-storage';
 
 export default function BucketScreen({ navigation })  {
   const dispatch = useDispatch();
@@ -23,6 +23,22 @@ export default function BucketScreen({ navigation })  {
   const [text, setText] = useState('Not yet scanned')
   const [isLoading, setIsLoading] = useState(false);
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
+
+  const Separator = () => (
+    <View style={styles.separator} />
+  );
+
+  const retrieveShopData = async () => {
+    try {
+      const value = await AsyncStorage.getItem('shopData');
+      if (value !== null) {
+        // We have data!!
+        console.log(value);
+      }
+    } catch (error) {
+      // Error retrieving data
+    }
+  };
 
   const cartItems = useSelector(state => {
     const transformedCartItems = [];
@@ -41,9 +57,10 @@ export default function BucketScreen({ navigation })  {
   });
 
   const sendOrderHandler = async () => {
-    setIsLoading(true);
-    await dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
-    setIsLoading(false);
+    // setIsLoading(true);
+    // await dispatch(orderActions.addOrder(cartItems, cartTotalAmount));
+    // setIsLoading(false);
+    navigation.navigate('PaymentScreen');
   };
 
   const askForCameraPermission = () => {
@@ -63,7 +80,7 @@ export default function BucketScreen({ navigation })  {
     setText(data)
     console.log('Type: ' + type + '\nData: ' + data);
     setScanned(true);
-    const selectedProduct = new Product(data,'amila','am','','dff',60,1);
+    const selectedProduct = new Product(data,'amila','Semi Milked Powder','','dff',60,1);
     dispatch(cartActions.addToCart(selectedProduct));
   };
 
@@ -85,7 +102,7 @@ export default function BucketScreen({ navigation })  {
   // Return the View
   return (
     <View style={styles.container}>
-      {/* <HeaderButtons HeaderButtonComponent={LoginScreen}>
+       {/* <HeaderButtons HeaderButtonComponent={LoginScreen}>
               <Item
                 title="menu"
                 iconName="bars"
@@ -93,16 +110,21 @@ export default function BucketScreen({ navigation })  {
                   navigation.toggleDrawer();
                 }}
               />
-            </HeaderButtons> */}
+            </HeaderButtons>  */}
       <View style={styles.barcodebox}>
         <BarCodeScanner
           onBarCodeScanned={scanned ? undefined : handleBarCodeScanned}
-          style={{ height: 480, width: 450 }} />
+          style={{ height: 480, width: 450 }} />      
       </View>
-      
-      <Text style={styles.maintext}>{text}</Text>
-      
-      {scanned && <Button title={'Scan again'} onPress={() => setScanned(false)} color="tomato"/>}
+      <Separator />
+      {scanned && 
+      <TouchableHighlight
+          style={styles.submit}
+          onPress={() => setScanned(false)}
+          underlayColor='#fff'>
+          <Text style={styles.submitText}>    Scan Again    </Text>
+      </TouchableHighlight> }
+      <Separator />
 
       <FlatList
         data={cartItems}
@@ -120,7 +142,7 @@ export default function BucketScreen({ navigation })  {
       />
       <Card style={styles.summary}>
         <Text style={styles.summaryText}>
-          Total:
+          Outstanding : 
           <Text style={styles.amount}>
             £{Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
           </Text>
@@ -136,8 +158,6 @@ export default function BucketScreen({ navigation })  {
           />
         )}
       </Card>
-
-
     </View>
   );
 }
@@ -187,4 +207,24 @@ const styles = StyleSheet.create({
   amount: {
     color: Colors.primary,
   },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  },
+  submit: {
+    marginRight: 40,
+    marginLeft: 40,
+    marginTop: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    backgroundColor: '#68a0cf',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#fff',
+  },
+  submitText: {
+    color: '#fff',
+    textAlign: 'center',
+  }
 });
